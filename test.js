@@ -1,27 +1,6 @@
 /**
- * Exo 2:
- */
-
-// str must not be array but string, separator ??
-function something(str, separator){
-    // The Array.isArray() static method determines whether the passed value is an Array.
-    if(separator && !Array.isArray(str)){
-        // str not array so we split it into an array
-        // splits a string into an array of substrings, and returns the array:
-        var arr =str.split(separator);
-
-        // The Array.from() static method creates a new, shallow-copied Array instance from an iterable or array-like object.
-        return Array.from(new Set(arr));
-    }
-    else return false;
-}
-
-// This function takes as parameters a string and separator(character). It checks if given string arguments is string and not array. If it is array it will return false. If it is string split() function transform it into array using separator to define/separate each element of array.  New Set() function takes this array and transform it into collection of iterable values. Array.from() function creates an array from this collection. After it return obtained array. 
-
-
-/**
  * Exo 1
- * From a collection of numbers inside an array, returns the closest value to zero.
+ * Fonction retourne la température la plus proche de zéro qui appartient au tableau
  */
  function closestToZero(array) {
     // Si « ts » est vide, retournez 0 (zéro)
@@ -29,29 +8,52 @@ function something(str, separator){
         return 0;
     }
     
-    // define that closest to 0 is variable closest
+    // definir la valeur de la variable closest comme éqal à 0
     let closest = 0;
     
-    // loop that verify each number in the array 
+    // une boucle pour vérifier chaque nombre dans le tableau 
     for (let i = 0; i < array.length ; i++) {
-        // during first iteration it assign the value of array[0] as closest
+        //lors de la première itération elle attribue la valeur de array[0] comme la valeur de closest
         if (closest === 0) {
             closest = array[i];
-        // during next iteration it checks value of array[i] if it positive
-        // and if its value is smaller or equal to the absolute value of closest
+        // lors de la prochaine itération, elle verifie si la valeur de array[i] est positive
+        // et si sa valeur est inférieure ou égale à la valeur absolue de closest
         } else if (array[i] > 0 && array[i] <= Math.abs(closest)) {
-            // if condition is true, value array[i] becomes closest
+            // si la condition est vraie, la valeur array[i] devient la valuer de closest
             closest = array[i];
-        // during next iteration it checks value of array[i] if it negative
-        // and if its absolute value is smaller than absolute value of closest
+        // ou lors de la prochaine itération, elle verifie si la valeur de array[i] est negative
+        // et si sa valeur est inférieure ou égale à la valeur absolue de closest
         } else if (array[i] < 0 && Math.abs(array[i]) < Math.abs(closest)) {
-            // if condition is true, value array[i] becomes closest
+            // si la condition est vraie, la valeur array[i] devient la valuer de closest
             closest = array[i];
         }
     }
     
-    // it returns the value of closest after iteration through array is finished
+    // elle retourne la valuer de closest lors l'itération dans le tableau est terminée
     return closest;
 }
 
 let items = [7,-10, 13, 8, 4, -7.2, -12, -3.7, 3.5, -9.6, 6.5, -1.7, -6.2, 7];
+
+
+/**
+ * Exo 2:
+ */
+
+// str doit être une chaîne de caractères mais pas un tableau
+function something(str, separator){
+    // Array.isArray() est la méthode statique détermine si la valeur transmise est un tableau.
+    if(separator && !Array.isArray(str)){
+        // si separator n'est pas faux(null)
+        // si str n'est pas un tabelau, elle l'a divisé en un tableau 
+        // elle divise une chaîne de caractères en un tableau de sous-chaînes et renvoie le tableau 
+        var arr =str.split(separator);
+
+        // Array.from() est la méthode statique qui crée une nouvelle tabelau à partir d'un objet itérable ou semblable à un tableau.
+        return Array.from(new Set(arr));
+    }
+    // si separator est faux/null ou str est un tableau elle retourne faux
+    else return false;
+}
+
+//! MA REPONSE Cette fonction prend comme des paramètres une chaîne de caractères et un séparateur (caractère). Il vérifie si l'argument (str) donnés est une chaîne de caractères et pas un tableau. S'il s'agit d'un tableau, elle renverra faux. S'il s'agit d'une chaîne de caractères, la fonction split() la transforme en tableau en utilisant un séparateur pour définir/séparer chaque élément du tableau. La fonction new Set() prend ce tableau et le transforme en une collection de valeurs itérables. La fonction Array.from() crée un tableau à partir de cette collection. Après cela, cette fonction retourne le tableau de résultats.
