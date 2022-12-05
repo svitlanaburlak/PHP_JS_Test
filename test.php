@@ -1,42 +1,45 @@
 <?php
 
 /**
- * Exo 1: Vous ne rappelez plus de l’endroit où vous avez enregistré le fichier universe-formula. La seule chose dont vous vous souvenez, c’est que vous l’avez mis quelque part dans un sous-répertoire de /tmp/documents. Implémentez la fonction locateUniverseFormula() qui devra retrouvez le fichier universe-formula et retourner son chemin complet (depuis la racine du système de fichiers). /tmp/documents peut contenir des sous-répertoires imbriqués les uns dans les autres et niverse-formula peut se trouver dans n’importe lequel de ces sous-répertoires. Si universe-formula n’existe pas, alors votre programme devra retourner NULL
+ * Exo 1: Vous ne rappelez plus de l’endroit où vous avez enregistré le fichier universe-formula. 
+ * La seule chose dont vous vous souvenez, c’est que vous l’avez mis quelque part dans un sous-répertoire de /tmp/documents. 
+ * Implémentez la fonction locateUniverseFormula() qui devra retrouvez le fichier universe-formula et retourner son chemin complet (depuis la racine du système de fichiers). 
+ * /tmp/documents peut contenir des sous-répertoires imbriqués les uns dans les autres et niverse-formula peut se trouver dans n’importe lequel de ces sous-répertoires. 
+ * Si universe-formula n’existe pas, alors votre programme devra retourner NULL
  */
 
-// function locateUniverseFormula($directory,$file) {
+function locateUniverseFormula($directory,$file) {
 
-//     // List files and directories inside the specified path
-//     $files = scandir($directory);
+    // Lister les fichiers et répertoires dans le chemin spécifié
+    $files = scandir($directory);
 
-//     foreach($files as $value) {
-//         //  pathinfo() Returns information about a file path
-//         $path = realpath($directory.DIRECTORY_SEPARATOR.$value);
+    foreach($files as $value) {
+        //  pathinfo() retourne information concernant le chemin
+        $path = realpath($directory.DIRECTORY_SEPARATOR.$value);
 
-//         // is_dir — Tells whether the filename is a directory
-//         // if its not it checks if the searched file name is equal to $value
-//         if(!is_dir($path)) {
+        // is_dir verifie si c'est un répertoire
+        // si ce n'est pas un répertoire, elle verfie si sa valeur est égale au fichier qu'on cherche 
+        if(!is_dir($path)) {
 
-//             // if it is equal it will return the path to the file
-//             if($file == $value){
-//                 echo $path;
-//                 break;
+            // si égal, elle retourne le chemin de ce fichier
+            if($file == $value){
+                echo $path;
+                break;
 
-//             }  
+            }  
 
-//         // if it is a not a file, it will luanch the function to search inside the given directory
-//         } else if($value != "." && $value != "..") {
+        // si ce n'est pas un fichier, elle recommence cette fonction pour chercher dans le répertoire donné
+        } else if($value != "." && $value != "..") {
 
-//             locateUniverseFormula($path, $file);
+            locateUniverseFormula($path, $file);
 
-//         } 
+        } 
    
-//     }
+    }
 
-// }
+}
 
 // locateUniverseFormula("/tmp/documents", "universe-formula");
-// locateUniverseFormula("/var/www/html", "exemple-1.json");
 
 /**
  * Exo 2: QueryBuilder est un composant d'interface utilisateur permettant de créer des requêtes et des filtres. Il nous renvoie un résultat sous format jSon ci-dessous deux exemples
@@ -49,17 +52,19 @@
  */
 function readJson($file) {
 
-    // get content of the file in json
+    // récupérer le contenu du fichier en json
     $string = file_get_contents($file);
 
-    // transform it into array
+    // transformer le en tableau
     $array = json_decode($string, true);
 
-    // get array of rules
+    // obtenir un tableau de règles
     $rules = $array["rules"];
 
+    // si une condition est OR
     if ($array["condition"] === "OR") {
         
+        // un boucle pour vérfier chaque condition du tableau récupérer depuis un fichier JSON
         foreach ($rules as $condition) {
 
             echo "( ";
@@ -67,7 +72,7 @@ function readJson($file) {
             foreach($condition["rules"] as $rule) {
                 echo $rule["id"] . " " . $rule["operator"] . " " . $rule["value"] . " ";
 
-                // if it is not the last element of $condition["rules"]
+                // si ce n'est pas le dernier element du tableau $condition["rules"]
                 if($rule !== end($condition["rules"])) {
                 echo $condition["condition"] . " ";  
                 }
@@ -80,12 +85,13 @@ function readJson($file) {
             
         }
 
+    // si une condition est AND
     } else if ($array["condition"] === "AND") {
-        // for each rule of the rules array it will print id, operator and value combined by the word of CONDITION.
+        // pour chaque règle du tableau $rules, elle affiche les id, operator et value separé par le mot de la conditon (AND)
         foreach($rules as $rule) {
             echo $rule["id"] . " " . $rule["operator"] . " " . $rule["value"] . " ";
 
-            // if it is not the last element of rules
+            // si ce n'est pas le dernier element du tableau $rules
             if($rule !== end($rules)) {
             echo $array["condition"] . " ";  
             }
@@ -93,11 +99,6 @@ function readJson($file) {
         } 
     }
 
-    
-   
-    
-    // $filter = true;
-    // return $filter;
 }
 
-readJson("exemple-1.json");
+readJson("exemple-2.json");
